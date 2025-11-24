@@ -44,6 +44,7 @@ import { ElButton, ElContainer, ElFooter, ElForm, ElFormItem, ElHeader, ElInput,
 
 <script lang="ts">
     import axios from 'axios';
+    import router from '@/router';
     export default {
         data() {
             return {
@@ -55,9 +56,11 @@ import { ElButton, ElContainer, ElFooter, ElForm, ElFormItem, ElHeader, ElInput,
             },
         methods: {
             onClick() {
-                if(this.userName!=''&&this.password==this.password_confirm&&this.email!=''){
-                    return this.postfrom()
-                }
+                //if(this.userName!=''&&this.password==this.password_confirm&&this.email!=''){
+                //    return this.postfrom()
+                //}
+                router.push({path:'/Login'})
+                console.log("sign_up")
             },
 
             postfrom() {
