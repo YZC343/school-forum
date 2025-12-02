@@ -15,6 +15,8 @@ import { ElButton, ElContainer, ElFooter, ElForm, ElFormItem, ElHeader, ElInput,
         style="max-width:600px;justify-items: center"
         status-icon
     >
+        <ElContainer style="text-align: left;"><p1>已有账号</p1><p1>登录</p1></ElContainer>
+        
         <ElFormItem class="input">
             <ElInput type="UserName" v-model="userName" autocomplete="off" placeholder="用户名"></ElInput>
         </ElFormItem>
@@ -26,10 +28,6 @@ import { ElButton, ElContainer, ElFooter, ElForm, ElFormItem, ElHeader, ElInput,
         <ElFormItem class="input">
 
             <ElInput type="Passowrd" v-model="password_confirm" autocomplete="off" placeholder="确认密码"></ElInput>
-        </ElFormItem>
-
-        <ElFormItem class="input">
-            <ElInput type="email" autocomplete="off" v-model="email" placeholder="邮箱"></ElInput>
         </ElFormItem>
 
         </ElForm>
