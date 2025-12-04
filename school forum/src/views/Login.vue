@@ -62,10 +62,11 @@ import { ElAside, ElContainer, ElForm, ElFormItem, ElHeader, ElInput, ElMain } f
 
         methods:{
             onClick_Login(){
-                if(this.userName!=''&&this.password==this.password_confirm&&this.email!=''){
+                if(this.userName!=''&&this.password==this.password_confirm){
                     return this.postfrom()
+                    router.push({path:'/Home'})
                 }
-                router.push({path:'/Home'})
+                
             },
             postfrom() {
                 

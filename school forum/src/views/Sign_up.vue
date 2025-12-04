@@ -70,11 +70,12 @@ import { ElAside, ElButton, ElContainer, ElFooter, ElForm, ElFormItem, ElHeader,
             },
         methods: {
             onClick() {
-                if(this.userName!=''&&this.password==this.password_confirm&&this.email!=''){
+                if(this.userName!=''&&this.password==this.password_confirm&&this.password!=''){
                     return this.postfrom()
+                    router.push({path:'/Login'})
+                    console.log("sign_up")
                 }
-                router.push({path:'/Login'})
-                console.log("sign_up")
+                
             },
 
             postfrom() {

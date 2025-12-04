@@ -19,4 +19,7 @@
     import { ElContainer, ElFooter, ElHeader, ElMain } from 'element-plus';
   import Scroll from '@/components/Scroll.vue';
   import InputBox from '@/components/InputBox.vue';
+
+  
+
   </script>

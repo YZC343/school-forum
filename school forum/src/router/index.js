@@ -3,6 +3,7 @@ import Forum from '@/views/Forum.vue'
 import Login from '@/views/Login.vue'
 import Sign_up from '@/views/Sign_up.vue'
 import Home from '@/views/Home.vue'
+import Board from '@/views/Board.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,10 @@ const router = createRouter({
     {
       path:'/Home',
       component:Home
+    },
+    {
+      path:'/Board',
+      component:Board
     }
   ],
   
