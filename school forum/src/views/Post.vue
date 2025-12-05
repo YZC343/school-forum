@@ -22,16 +22,6 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         <div style="display: flex;">
             <el-menu-item  index="/home">首页</el-menu-item>
 
-            <el-sub-menu>
-                <template #title>
-                    <el-icon><location /></el-icon>
-                    <span>排序</span>
-                </template>
-
-                <el-menu-item >最新</el-menu-item>
-                <el-menu-item >本周最热</el-menu-item>
-                <el-menu-item >默认</el-menu-item>
-            </el-sub-menu>
             <el-menu-item-group>
 
             </el-menu-item-group>
@@ -55,10 +45,43 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         
     </ElMenu>   
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
-        
-        <ElContainer style="" v-for="item in board" class="scrollbar-demo-item">
+        <ElContainer class="scrollbar-demo-item">
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                {{ item.name }}
+                {{ post.author }}
+            </ElHeader>
+            <ElHeader style="height: 20px;
+            margin-top: 10px;
+            font-weight: normal;
+            font-size: 1em;">
+                {{ post.title }}
+            </ElHeader>
+            
+            <ElMain
+                style="
+                margin: 10px;
+                border-radius: 4px;
+                border: solid 2px #B0C4DE;"
+                >{{ post.content }}
+            </ElMain>
+
+            <div style="display: flex;justify-content: space-around;">
+            
+                <ElContainer style="margin-left: 10px;">{{ post.time }}</ElContainer>
+                <div style="display: flex;justify-content: center;">
+                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large>点赞</ElButton>
+                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle>收藏</ElButton>
+                </div>
+            </div>
+        </ElContainer>
+        <ElContainer style="" v-for="(item,index) in replies":key="index" class="scrollbar-demo-item">
+            <ElHeader style="display: flex;justify-content: space-between;">
+                <ElContainer style="height: 20px;font-weight: bold;font-size: 1.25em;">
+                    {{ item.author }}
+                </ElContainer>
+                
+                <ElContainer style="text-align:justify;">
+                    {{index+1}}
+                </ElContainer>
             </ElHeader>
             <ElMain
                 style="
@@ -72,8 +95,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     style="display: flex;"
                     
                 >
-                    <ElContainer>{{ item.author }}</ElContainer>
-                    <ElContainer>{{ item.time }}</ElContainer>
+                    <ElContainer style="margin-left: 10px;">{{ item.time }}</ElContainer>
                 </div>
             </ElAside>
         </ElContainer>
@@ -84,10 +106,22 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     <div style="height: 70px;background-color: white;"></div>
 
     <div class="footer"
-        @click="onClick_publish_post"
+        style="border: 2px solid #666;"
     >
-    <!-- 底栏内容 -->
-    <p >发布帖子</p>
+        
+            <ElFormItem style="width: 100%;">
+                <ElInput 
+                style="width: 95%;" 
+                show-word-limit
+                maxlength="800"
+                :autosize = "{ minRows: 18, maxRows: 30 }"
+                type="textarea"
+                v-model="content" 
+                autocomplete="off" 
+                placeholder="输入帖子内容">
+                </ElInput>
+            </ElFormItem>
+            <ElButton circle style="width: 30px;height: 30px;">发送</ElButton>
     </div>
     
 </template>
@@ -104,42 +138,32 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
         data() {
             return{
-                board:[
+                post:{
+                    author:"用户名",
+                    title:"帖子标题",
+                    content:"帖子内容",
+                    time:"2025-12-5"
+                },
+                replies:[
                     {
-                        name:"帖子标题",
-                        content:"帖子内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                        time:"2025-12-3",
-                        author:"Lee",
+                        author:"回复用户名",
+                        content:"回复内容",
+                        time:"2025-12-5"
                     },
                     {
-                        name:"帖子标题",
-                        content:"帖子内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                        time:"2025-12-3",
-                        author:"Lee",
+                        author:"回复用户名",
+                        content:"回复内容",
+                        time:"2025-12-5"
                     },
                     {
-                        name:"帖子标题",
-                        content:"帖子内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                        time:"2025-12-3",
-                        author:"Lee",
+                        author:"回复用户名",
+                        content:"回复内容",
+                        time:"2025-12-5"
                     },
                     {
-                        name:"帖子标题",
-                        content:"帖子内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                        time:"2025-12-3",
-                        author:"Lee",
-                    },
-                    {
-                        name:"帖子标题",
-                        content:"帖子内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                        time:"2025-12-3",
-                        author:"Lee",
-                    },
-                    {
-                        name:"帖子标题",
-                        content:"帖子内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-                        time:"2025-12-3",
-                        author:"Lee",
+                        author:"回复用户名",
+                        content:"回复内容",
+                        time:"2025-12-5"
                     },
                 ]
             }
@@ -181,12 +205,12 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         left: 0;
         width: 100%;
         height: 5%;
-        background-color: #6495ED;
         color: #fff;
         text-align: center;
         padding: 10px 0;
         display: flex;
         justify-content: center;
+        background-color: #fff;
         width: 50%;
         margin-left: 25%;
         margin-right: 25%;
