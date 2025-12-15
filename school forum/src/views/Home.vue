@@ -31,7 +31,7 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
             <div style="display: flex;">
                 <el-menu-item index="/home">私信</el-menu-item>
 
-                <el-menu-item index="/home">用户</el-menu-item>
+                <el-menu-item index="/User">用户</el-menu-item>
             </div>
         
             
@@ -39,7 +39,9 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
     </ElMenu>   
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
         
-        <ElContainer style="" v-for="item in board" class="scrollbar-demo-item">
+        <ElContainer style="" v-for="item in board" class="scrollbar-demo-item" 
+        @click = "clickBoard"
+        >
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">{{ item.name }}:</ElHeader>
             <ElMain
             style="
@@ -54,6 +56,7 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
 </template>
 
 <script lang="ts">
+import router from "@/router"
     export default{
         data() {
             return{
@@ -93,6 +96,11 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
                 ]
             }
         },
+        methods:{
+            clickBoard(){
+                router.push("/Board")
+            }
+        }
     }
 </script>
 

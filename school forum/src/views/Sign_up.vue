@@ -71,16 +71,26 @@ import { ElAside, ElButton, ElContainer, ElFooter, ElForm, ElFormItem, ElHeader,
         methods: {
             onClick() {
                 if(this.userName!=''&&this.password==this.password_confirm&&this.password!=''){
-                    return this.postfrom()
-                    router.push({path:'/Login'})
-                    console.log("sign_up")
+                    
+                    axios.post('http://127.0.0.1:5000/api/register',{
+                        username:this.userName,
+                        password:this.password
+                    })
+                    .then(response => {console.log(response);
+                        if(response.status === 201 || response.status === 200){
+                        router.push('/Login');
+                    }
+                    }
+                )
+                    .catch(error => console.error(error));
+                    
                 }
                 
             },
 
             postfrom() {
                 
-                axios.post('/api/register',{username:this.userName,password:this.password})
+                axios.post('http://127.0.0.1:5000/api/register',{username:this.userName,password:this.password})
                 .then(response => console.log(response))
                 .catch(error => console.error(error));
             },

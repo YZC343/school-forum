@@ -38,7 +38,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
             <div style="display: flex;">
                 <el-menu-item index="/home">私信</el-menu-item>
 
-                <el-menu-item index="/home">用户</el-menu-item>
+                <el-menu-item index="/User">用户</el-menu-item>
             </div>
         
             

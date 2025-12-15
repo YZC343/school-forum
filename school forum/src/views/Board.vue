@@ -48,7 +48,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
             <div style="display: flex;">
                 <el-menu-item index="/home">私信</el-menu-item>
 
-                <el-menu-item index="/home">用户</el-menu-item>
+                <el-menu-item index="/User">用户</el-menu-item>
             </div>
         
             
@@ -56,7 +56,9 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     </ElMenu>   
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
         
-        <ElContainer style="" v-for="item in board" class="scrollbar-demo-item">
+        <ElContainer style="" v-for="item in board" class="scrollbar-demo-item"
+        @click = "clickPost"
+        >
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
                 {{ item.name }}
             </ElHeader>
@@ -83,7 +85,27 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         
     <div style="height: 70px;background-color: white;"></div>
 
-    <div class="footer"
+    <div style="
+    position: fixed;
+    position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5%;
+        background-color: #6495ED;
+        /*color: #fff;*/
+        text-align: center;
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;
+        border-radius: 4px;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    "
+
+
         @click="onClick_publish_post"
     >
     <!-- 底栏内容 -->
@@ -99,6 +121,9 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         methods:{
             onClick_publish_post(){
                 router.push('/PublishPost')
+            },
+            clickPost(){
+                router.push("/Post")
             }
         },
 
@@ -182,7 +207,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         width: 100%;
         height: 5%;
         background-color: #6495ED;
-        color: #fff;
+        /*color: #fff;*/
         text-align: center;
         padding: 10px 0;
         display: flex;
