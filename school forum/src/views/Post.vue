@@ -128,24 +128,46 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
 <script lang="ts">
     import router from '@/router';
+    import axios from 'axios';
+
     export default{
 
         methods:{
             onClick_publish_post(){
                 router.push('/PublishPost')
+            },
+            getPost(){
+                axios.post('http://127.0.0.1:5000/api/posts/pick',{uuid:this.$route.query.uuid})
+                    .then(response => {
+                        console.log(response);
+                        this.post=response.data[0]
+                })
+                .catch(error => console.error(error));
+            },
+            getReplies(){
+                axios.post('http://127.0.0.1:5000/api/replies/list',{uuid:this.$route.query.uuid})
+                    .then(response => {
+                        console.log(response);
+                        this.replies=response.data
+                })
+                .catch(error => console.error(error));
             }
         },
 
         data() {
             return{
                 post:{
+        
+                },
+                /*
                     author:"用户名",
                     title:"帖子标题",
                     content:"帖子内容",
                     time:"2025-12-5"
-                },
-                replies:[
-                    {
+                */
+                replies:[],
+                /* 
+                {
                         author:"回复用户名",
                         content:"回复内容",
                         time:"2025-12-5"
@@ -165,8 +187,12 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                         content:"回复内容",
                         time:"2025-12-5"
                     },
-                ]
+                */
             }
+        },
+        mounted(){
+            this.getPost()
+            this.getReplies()
         },
     }
 </script>

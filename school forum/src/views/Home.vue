@@ -40,7 +40,7 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
         
         <ElContainer style="" v-for="item in board" class="scrollbar-demo-item" 
-        @click = "clickBoard"
+        @click = "clickBoard(item)"
         >
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">{{ item.name }}:</ElHeader>
             <ElMain
@@ -57,10 +57,14 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
 
 <script lang="ts">
 import router from "@/router"
+import axios from 'axios';
+import { ref } from 'vue';
+    
     export default{
         data() {
             return{
-                board:[
+                board:ref([])
+                 /*
                     {
                         name:"板块名称",
                         content:"板块内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -93,13 +97,28 @@ import router from "@/router"
                         name:"板块名称",
                         content:"板块内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
                     },
-                ]
+                    */
             }
         },
         methods:{
-            clickBoard(){
-                router.push("/Board")
+            clickBoard(item){
+                router.push({
+                    path:"/Board",
+                    query:{name:item.name},
+                })
+                console.log(item.name)
+            },
+            getBoardList(){
+                axios.get('http://127.0.0.1:5000/api/board/list',)
+                    .then(response => {console.log(response);
+                    this.board=response.data
+                })
+                .catch(error => console.error(error));
+                
             }
+        },
+        mounted(){
+            this.getBoardList()
         }
     }
 </script>

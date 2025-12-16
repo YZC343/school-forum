@@ -56,8 +56,8 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     </ElMenu>   
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
         
-        <ElContainer style="" v-for="item in board" class="scrollbar-demo-item"
-        @click = "clickPost"
+        <ElContainer style="" v-for="item in posts" class="scrollbar-demo-item"
+        @click = "clickPost(item)"
         >
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
                 {{ item.name }}
@@ -114,23 +114,39 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     
 </template>
 
-<script lang="ts">
+<script  lang="ts">
     import router from '@/router';
+    import axios from 'axios';
+    import { ref } from 'vue';
+
     export default{
 
         methods:{
             onClick_publish_post(){
                 router.push('/PublishPost')
             },
-            clickPost(){
-                router.push("/Post")
+            clickPost(item){
+                router.push({
+                    path:"/Post",
+                    query:{uuid:item.uuid},
+                })
+                console.log(item.name)
+            },
+            getPostList(){
+                axios.post('http://127.0.0.1:5000/api/posts/query',{name:this.$route.query.name})
+                    .then(response => {
+                        console.log(response);
+                        this.posts=response.data
+                })
+                .catch(error => console.error(error));
             }
         },
 
         data() {
             return{
-                board:[
-                    {
+                posts:ref([])
+                /*
+                {
                         name:"帖子标题",
                         content:"帖子内容XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
                         time:"2025-12-3",
@@ -166,8 +182,11 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                         time:"2025-12-3",
                         author:"Lee",
                     },
-                ]
+                 */
             }
+        },
+        mounted(){
+            this.getPostList()
         },
     }
 </script>
