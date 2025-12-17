@@ -137,7 +137,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 router.push('/PublishPost')
             },
             getPost(){
-                axios.post('http://127.0.0.1:5000/api/posts/pick',{uuid:this.$route.query.uuid})
+                axios.post('/api/posts/pick',{uuid:this.$route.query.uuid})
                     .then(response => {
                         console.log(response);
                         this.post=response.data[0]
@@ -145,7 +145,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 .catch(error => console.error(error));
             },
             getReplies(){
-                axios.post('http://127.0.0.1:5000/api/replies/list',{uuid:this.$route.query.uuid})
+                axios.post('/api/replies/list',{uuid:this.$route.query.uuid})
                     .then(response => {
                         console.log(response);
                         this.replies=response.data

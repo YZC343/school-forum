@@ -92,8 +92,11 @@ import axios from 'axios';
         methods:{
             onClick_publish_post(){
                 if(this.title!=''&&this.content!=''){
-                    axios.post('/api/posts/publish',{title:this.title,content:this.content,author:"",board:"",})
-                    .then(response => console.log(response))
+                    axios.post('/api/posts/publish',
+                    {title:this.title,content:this.content,board:this.$route.query.board,},
+                    {withCredentials: true,}
+                )
+                    .then(response =>console.log(response.data))
                     .catch(error => console.error(error));
                     console.log("publish_post")
                 }

@@ -109,7 +109,7 @@ import { ref } from 'vue';
                 console.log(item.name)
             },
             getBoardList(){
-                axios.get('http://127.0.0.1:5000/api/board/list',)
+                axios.get('/api/board/list',)
                     .then(response => {console.log(response);
                     this.board=response.data
                 })

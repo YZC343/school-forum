@@ -63,7 +63,7 @@ import { ElAside, ElContainer, ElForm, ElFormItem, ElHeader, ElInput, ElMain } f
         methods:{
             onClick_Login(){
                 if(this.userName!=''&&this.password!=''){
-                    axios.post('http://127.0.0.1:5000/api/auth/login',{username:this.userName,pwd:this.password})
+                    axios.post('/api/auth/login',{username:this.userName,pwd:this.password})
                     .then(response => {console.log(response);
                     if(response.status === 201 || response.status === 200){
                         console.log("login")
@@ -76,8 +76,11 @@ import { ElAside, ElContainer, ElForm, ElFormItem, ElHeader, ElInput, ElMain } f
             },
             postfrom() {
                 
-                axios.post('http://127.0.0.1:5000/api/login',{username:this.userName,pwd:this.password})
-                .then(response => {console.log(response);
+                axios.post('/api/login',
+                {username:this.userName,pwd:this.password,},
+                {withCredentials: true,}
+            )
+                .then(response => {console.log(response.data);
                     if(response.status === 201 || response.status === 200){
                         console.log("login")
                         router.push('/Home');

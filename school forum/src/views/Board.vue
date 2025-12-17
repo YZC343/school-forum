@@ -123,7 +123,10 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
         methods:{
             onClick_publish_post(){
-                router.push('/PublishPost')
+                router.push({
+                    path:'/PublishPost',
+                    query:{board:this.$route.query.name},
+                })
             },
             clickPost(item){
                 router.push({
@@ -133,7 +136,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 console.log(item.name)
             },
             getPostList(){
-                axios.post('http://127.0.0.1:5000/api/posts/query',{name:this.$route.query.name})
+                axios.post('/api/posts/query',{name:this.$route.query.name})
                     .then(response => {
                         console.log(response);
                         this.posts=response.data
