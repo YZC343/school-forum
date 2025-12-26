@@ -60,7 +60,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         @click = "clickPost(item)"
         >
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                {{ item.name }}
+                {{ item.title }}
             </ElHeader>
             <ElMain
                 style="
@@ -74,8 +74,8 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     style="display: flex;"
                     
                 >
-                    <ElContainer>{{ item.author }}</ElContainer>
-                    <ElContainer>{{ item.time }}</ElContainer>
+                    <ElContainer>{{ item.author_name }}</ElContainer>
+                    <ElContainer>{{ item.create_time }}</ElContainer>
                 </div>
             </ElAside>
         </ElContainer>
@@ -136,7 +136,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 console.log(item.name)
             },
             getPostList(){
-                axios.post('/api/posts/query',{name:this.$route.query.name})
+                axios.post('/api/posts/query',{board:this.$route.query.name})
                     .then(response => {
                         console.log(response);
                         this.posts=response.data

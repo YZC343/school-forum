@@ -72,7 +72,7 @@ import { ElAside, ElButton, ElContainer, ElFooter, ElForm, ElFormItem, ElHeader,
             onClick() {
                 if(this.userName!=''&&this.password==this.password_confirm&&this.password!=''){
                     
-                    axios.post('http://127.0.0.1:5000/api/register',{
+                    axios.post('http://127.0.0.1:5000/api/auth/register',{
                         username:this.userName,
                         password:this.password
                     })

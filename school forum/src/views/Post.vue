@@ -47,7 +47,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
         <ElContainer class="scrollbar-demo-item">
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                {{ post.author }}
+                {{ post.author_name }}
             </ElHeader>
             <ElHeader style="height: 20px;
             margin-top: 10px;
@@ -66,7 +66,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
             <div style="display: flex;justify-content: space-around;">
             
-                <ElContainer style="margin-left: 10px;">{{ post.time }}</ElContainer>
+                <ElContainer style="margin-left: 10px;">{{ post.create_time }}</ElContainer>
                 <div style="display: flex;justify-content: center;">
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large>点赞</ElButton>
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle>收藏</ElButton>
@@ -116,12 +116,12 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 maxlength="800"
                 :autosize = "{ minRows: 18, maxRows: 30 }"
                 type="textarea"
-                v-model="content" 
+                v-model="reply"
                 autocomplete="off" 
                 placeholder="输入帖子内容">
                 </ElInput>
             </ElFormItem>
-            <ElButton circle style="width: 30px;height: 30px;">发送</ElButton>
+            <ElButton circle style="width: 30px;height: 30px;" @click="publish_reply">发送</ElButton>
     </div>
     
 </template>
@@ -140,7 +140,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 axios.post('/api/posts/pick',{uuid:this.$route.query.uuid})
                     .then(response => {
                         console.log(response);
-                        this.post=response.data[0]
+                        this.post=response.data
                 })
                 .catch(error => console.error(error));
             },
@@ -151,14 +151,24 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                         this.replies=response.data
                 })
                 .catch(error => console.error(error));
+            },
+            publish_reply(){
+                if(this.reply!=''){
+                    axios.post('/api/replies/publish',
+                    {post_uuid:this.$route.query.uuid,content:this.reply},
+                    {withCredentials: true,}
+                )
+                    .then(response =>console.log(response.data))
+                    .catch(error => console.error(error));
+                    console.log("publish_post")
+                }
             }
         },
 
         data() {
             return{
-                post:{
-        
-                },
+                reply:"",
+                post:{},
                 /*
                     author:"用户名",
                     title:"帖子标题",
