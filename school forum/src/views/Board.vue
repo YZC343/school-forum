@@ -74,8 +74,8 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     style="display: flex;"
                     
                 >
-                    <ElContainer>{{ item.author_name }}</ElContainer>
-                    <ElContainer>{{ item.create_time }}</ElContainer>
+                    <ElContainer>{{ item.author_username }}</ElContainer>
+                    <ElContainer>{{ item.created_time }}</ElContainer>
                 </div>
             </ElAside>
         </ElContainer>

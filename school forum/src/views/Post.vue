@@ -47,7 +47,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
         <ElContainer class="scrollbar-demo-item">
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                {{ post.author_name }}
+                {{ post.author_username }}
             </ElHeader>
             <ElHeader style="height: 20px;
             margin-top: 10px;
@@ -66,7 +66,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
             <div style="display: flex;justify-content: space-around;">
             
-                <ElContainer style="margin-left: 10px;">{{ post.create_time }}</ElContainer>
+                <ElContainer style="margin-left: 10px;">{{ post.created_time }}</ElContainer>
                 <div style="display: flex;justify-content: center;">
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large>点赞</ElButton>
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle>收藏</ElButton>
@@ -76,7 +76,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         <ElContainer style="" v-for="(item,index) in replies":key="index" class="scrollbar-demo-item">
             <ElHeader style="display: flex;justify-content: space-between;">
                 <ElContainer style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                    {{ item.author }}
+                    {{ item.author_username }}
                 </ElContainer>
                 
                 <ElContainer style="text-align:justify;">
