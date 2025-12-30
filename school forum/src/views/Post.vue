@@ -20,7 +20,11 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     "
     >   
         <div style="display: flex;">
-            <el-menu-item  index="/home">首页</el-menu-item>
+            <div style="display: flex;">
+                <el-menu-item  index="/home">首页</el-menu-item>
+
+                <el-menu-item  index="/Login">切换用户</el-menu-item>
+            </div>
 
             <el-menu-item-group>
 
@@ -30,9 +34,9 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
         
             <div style="display: flex;">
-                <ElInput style="height: 60%;width: 100%;" type="UserName"  autocomplete="off" placeholder=""></ElInput>
+                <ElInput style="height: 60%;width: 100%;" type="UserName"  autocomplete="off" placeholder="" v-model="keyword"></ElInput>
 
-                <ElButton style="height: 60%;" type="primary">搜索</ElButton>
+                <ElButton style="height: 60%;" type="primary" @click="click_search">搜索</ElButton>
             </div>
             
             <div style="display: flex;">
@@ -47,13 +51,13 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     <ElContainer style="width: 50%;margin-left: 25%;margin-right: 25%;display: flex;flex-direction: column;">
         <ElContainer class="scrollbar-demo-item">
             <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                {{ post.author_username }}
+                作者：{{ post.author_username }}
             </ElHeader>
             <ElHeader style="height: 20px;
             margin-top: 10px;
             font-weight: normal;
             font-size: 1em;">
-                {{ post.title }}
+                标题：{{ post.title }}
             </ElHeader>
             
             <ElMain
@@ -66,7 +70,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
             <div style="display: flex;justify-content: space-around;">
             
-                <ElContainer style="margin-left: 10px;">{{ post.created_time }}</ElContainer>
+                <ElContainer style="margin-left: 10px;">{{post.created_time}}</ElContainer>
                 <div style="display: flex;justify-content: center;">
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large>点赞</ElButton>
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle>收藏</ElButton>
@@ -76,11 +80,11 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         <ElContainer style="" v-for="(item,index) in replies":key="index" class="scrollbar-demo-item">
             <ElHeader style="display: flex;justify-content: space-between;">
                 <ElContainer style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                    {{ item.author_username }}
+                    回复者：{{ item.author_username }}
                 </ElContainer>
                 
                 <ElContainer style="text-align:justify;">
-                    {{index+1}}
+                    
                 </ElContainer>
             </ElHeader>
             <ElMain
@@ -95,7 +99,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     style="display: flex;"
                     
                 >
-                    <ElContainer style="margin-left: 10px;">{{ item.time }}</ElContainer>
+                    <ElContainer style="margin-left: 10px;">{{ item.created_time }}</ElContainer>
                 </div>
             </ElAside>
         </ElContainer>
@@ -129,6 +133,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 <script lang="ts">
     import router from '@/router';
     import axios from 'axios';
+    import { format } from 'date-fns';
 
     export default{
 
@@ -164,6 +169,12 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     this.getReplies()
                     this.reply=""
                 }
+            },
+            click_search(){
+                router.push({
+                    path:"/Board",
+                    query:{keyword:this.keyword}
+                })
             }
         },
 
@@ -171,6 +182,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
             return{
                 reply:"",
                 post:{},
+                keyword:"",
                 /*
                     author:"用户名",
                     title:"帖子标题",

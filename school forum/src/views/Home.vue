@@ -19,13 +19,20 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
     top:0;
     "
     >
-        <el-menu-item  index="/home">首页</el-menu-item>
+        
+            <div style="display: flex;">
+                <el-menu-item  index="/home">首页</el-menu-item>
+
+                <el-menu-item  index="/Login">切换用户</el-menu-item>
+            </div>
+
+        
 
         
             <div style="display: flex;">
-                <ElInput style="height: 60%;width: 100%;" type="UserName"  autocomplete="off" placeholder=""></ElInput>
+                <ElInput style="height: 60%;width: 100%;" type="UserName"  autocomplete="off" placeholder="" v-model="keyword"></ElInput>
 
-                <ElButton style="height: 60%;" type="primary">搜索</ElButton>
+                <ElButton style="height: 60%;" type="primary" @click="click_search">搜索</ElButton>
             </div>
             
             <div style="display: flex;">
@@ -63,7 +70,9 @@ import { ref } from 'vue';
     export default{
         data() {
             return{
-                board:ref([])
+                board:ref([]),
+                keyword:""
+                
                  /*
                     {
                         name:"板块名称",
@@ -115,6 +124,12 @@ import { ref } from 'vue';
                 })
                 .catch(error => console.error(error));
                 
+            },
+            click_search(){
+                router.push({
+                    path:"/Board",
+                    query:{keyword:this.keyword}
+                })
             }
         },
         mounted(){

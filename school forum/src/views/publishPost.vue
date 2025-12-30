@@ -102,8 +102,6 @@ import axios from 'axios';
                     router.push({
                         path:"/Board",
                         query:{name:this.$route.query.board}
-                    }).then( ()=> {
-                        window.location.reload();
                     })
                 }
             }

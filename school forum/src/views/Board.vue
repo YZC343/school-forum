@@ -40,9 +40,9 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
 
         
             <div style="display: flex;">
-                <ElInput style="height: 60%;width: 100%;" type="UserName"  autocomplete="off" placeholder=""></ElInput>
+                <ElInput style="height: 60%;width: 100%;" type="UserName"  autocomplete="off" placeholder="" v-model="keyword"></ElInput>
 
-                <ElButton style="height: 60%;" type="primary">搜索</ElButton>
+                <ElButton style="height: 60%;" type="primary" @click="click_search">搜索</ElButton>
             </div>
             
             <div style="display: flex;">
@@ -59,8 +59,8 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
         <ElContainer style="" v-for="item in posts" class="scrollbar-demo-item"
         @click = "clickPost(item)"
         >
-            <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                {{ item.title }}
+            <ElHeader style="height: 20px;font-weight: bold;font-size: 1em;overflow: hidden;white-space: nowrap;">
+                标题:{{ item.title }}
             </ElHeader>
             <ElMain
                 style="
@@ -74,8 +74,8 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     style="display: flex;"
                     
                 >
-                    <ElContainer>{{ item.author_username }}</ElContainer>
-                    <ElContainer>{{ item.created_time }}</ElContainer>
+                    <ElContainer style="margin-left: 15px;">作者:{{ item.author_username }}</ElContainer>
+                    <ElContainer style="margin-left: 15px;">{{ item.created_time }}</ElContainer>
                 </div>
             </ElAside>
         </ElContainer>
@@ -136,18 +136,26 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 console.log(item.name)
             },
             getPostList(){
-                axios.post('/api/posts/query',{board:this.$route.query.name})
+                axios.post('/api/posts/query',{board:this.$route.query.name,keyword:this.$route.query.keyword})
                     .then(response => {
                         console.log(response);
                         this.posts=response.data
                 })
                 .catch(error => console.error(error));
+            },
+            click_search(){
+                axios.post('/api/posts/query',{keyword:this.keyword})
+                    .then(response => {
+                        console.log(response);
+                        this.posts=response.data
+                })
             }
         },
 
         data() {
             return{
-                posts:ref([])
+                posts:ref([]),
+                keyword:""
                 /*
                 {
                         name:"帖子标题",
