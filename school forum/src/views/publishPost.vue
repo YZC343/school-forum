@@ -99,6 +99,12 @@ import axios from 'axios';
                     .then(response =>console.log(response.data))
                     .catch(error => console.error(error));
                     console.log("publish_post")
+                    router.push({
+                        path:"/Board",
+                        query:{name:this.$route.query.board}
+                    }).then( ()=> {
+                        window.location.reload();
+                    })
                 }
             }
         }

@@ -160,7 +160,9 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 )
                     .then(response =>console.log(response.data))
                     .catch(error => console.error(error));
-                    console.log("publish_post")
+                    console.log("publish_reply")
+                    this.getReplies()
+                    this.reply=""
                 }
             }
         },
