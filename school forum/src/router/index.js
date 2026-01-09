@@ -8,7 +8,8 @@ import publishPost from '@/views/publishPost.vue'
 import Post from '@/views/Post.vue'
 import User from '@/views/User.vue'
 import Message from '@/views/Message.vue'
-
+import modifyPost from '@/views/modifyPost.vue'
+import modifyReply from '@/views/modifyReply.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,8 +45,16 @@ const router = createRouter({
       component:publishPost
     },
     {
+      path:"/ModifyPost",
+      component:modifyPost
+    },
+    {
       path:"/Post",
       component:Post
+    },
+    {
+      path:"/ModifyReply",
+      component:modifyReply
     },
     {
       path:"/User",

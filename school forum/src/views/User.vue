@@ -84,19 +84,19 @@
                 "
                 >
                     <ElContainer style="display: flex;justify-content:start;margin-left: 15px;align-items: center;height: 25%;">
-                        <p style="font-size: 1.25em;margin-right: 20px;">用户名</p>
+                        <p style="font-size: 1.25em;margin-right: 20px;">用户名:{{user.username}}</p>
 
                         <ElButton type="primary" style="margin-right: 20px;">关注</ElButton>
 
                         <ElButton type="primary" style="margin-right: 20px;">私信</ElButton>
                     </ElContainer>
 
-                    <ElContainer style="display: flex;justify-content:start;margin-left: 15px;align-items: center;height: 25%;">
-                        <p style="font-size: 1.25em;">身份</p>
+                    <ElContainer style="display: flex;justify-content:start;margin-left: 15px;align-items: center;height: 25%;font-size: 1.25em;">
+                        <p style="">身份:</p> <p v-if="user.is_super_admin === true">管理员</p> <p v-else>普通用户</p>
                     </ElContainer>
 
                     <ElContainer style="display: flex;justify-content:start;margin-left: 15px;align-items: center;height: 25%;">
-                        <p style="font-size: 1.25em;">个性签名</p>
+                        <p style="font-size: 1.25em;">个性签名</p> <p>{{user.signature}}</p>
                     </ElContainer>
 
                     <ElContainer style="display: flex;justify-content:start;margin-left: 15px;align-items: center;height: 25%;">
@@ -114,12 +114,12 @@
             align-items: center;">
 
                 <ElButton type="primary" style="
-                ">
+                " @click="getPostList">
                 帖子
                 </ElButton>
 
                 <ElButton type="primary" style="
-                ">
+                "@click="getReplies">
                 评论
                 </ElButton>
 
@@ -145,29 +145,60 @@
 
             
             
-            <ElContainer style="" v-for="item in board" class="scrollbar-demo-item"
-            @click = "clickPost"
+            <ElContainer style="" v-for="post in posts" class="scrollbar-demo-item"
+            
             >
                 <ElHeader style="height: 20px;font-weight: bold;font-size: 1.25em;">
-                    {{ item.name }}
+                    标题:{{ post.title }}
                 </ElHeader>
                 <ElMain
                     style="
                     margin: 10px;
                     border-radius: 4px;
                     border: solid 2px #B0C4DE;"
-                    >{{ item.content }}
+                    >{{ post.content }}
                 </ElMain>
                 <ElAside>
                     <div 
                         style="display: flex;"
                         
                     >
-                        <ElContainer>{{ item.author }}</ElContainer>
-                        <ElContainer>{{ item.time }}</ElContainer>
+                        <ElContainer>作者:{{ post.author_username }}</ElContainer>
+                        <ElContainer>{{ post.created_time }}</ElContainer>
+                        <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large @click="modifyPost(post)">修改</ElButton>
+                        <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large @click="gotoPost(post)">跳转</ElButton>
                     </div>
                 </ElAside>
             </ElContainer>
+
+            <ElContainer style="" v-for="(item,index) in replies":key="index" class="scrollbar-demo-item">
+            <ElHeader style="display: flex;justify-content: space-between;">
+                <ElContainer style="height: 20px;font-weight: bold;font-size: 1.25em;">
+                    帖子标题：{{ item.post.title }}
+                </ElContainer>
+                
+                <ElContainer style="text-align:justify;">
+                    
+                </ElContainer>
+            </ElHeader>
+            <ElMain
+                style="
+                margin: 10px;
+                border-radius: 4px;
+                border: solid 2px #B0C4DE;"
+                >{{ item.content }}
+            </ElMain>
+            <ElAside>
+                <div 
+                    style="display: flex;"
+                    
+                >
+                    <ElContainer style="margin-left: 10px;">{{ item.created_time }}</ElContainer>
+                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large @click="modifyReply(item)">修改</ElButton>
+                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large @click="gotoReply(item)">跳转</ElButton>
+                </div>
+            </ElAside>
+        </ElContainer>
             
     
         </ElContainer>
@@ -180,6 +211,8 @@
     
     <script lang="ts">
         import router from '@/router';
+        import axios from 'axios';
+        import { ref } from 'vue';
         export default{
     
             methods:{
@@ -188,11 +221,71 @@
                 },
                 clickPost(){
                     router.push("/Post")
-                }
+                },
+
+                getUserinfo(){
+                    axios.post('/api/auth/info',
+                    {withCredentials: true,}
+                )
+                    .then(response =>{
+                    this.user=response.data
+                    console.log(response.data)
+                    console.log(this.user)
+                    })
+                    .catch(error => console.error(error));
+                    console.log("getUserinfo")
+                },
+                getPostList(){
+                this.replies={}
+                axios.post('/api/posts/query_self',{})
+                    .then(response => {
+                        console.log(response);
+                        this.posts=response.data
+                })
+                .catch(error => console.error(error));
+                },
+                getReplies(){
+                    this.posts={}
+                    axios.post('/api/replies/query_self',{})
+                    .then(response => {
+                        console.log(response);
+                        this.replies=response.data
+                    })
+                    .catch(error => console.error(error));
+                },
+                modifyPost(item){
+                    router.push({
+                    path:'/ModifyPost',
+                    query:{uuid:item.uuid},
+                })
+                },
+                modifyReply(item){
+                    router.push({
+                    path:'/ModifyReply',
+                    query:{uuid:item.post_uuid,sequence_no:item.sequence_no},
+                })
+                },
+                gotoPost(item){
+                    router.push({
+                        path:'/Post',
+                        query:{uuid:item.uuid},
+                    })
+                },
+                gotoReply(item){
+                    router.push({
+                        path:'/Post',
+                        query:{uuid:item.post_uuid},
+                        
+                    })
+                },
+                
             },
     
             data() {
                 return{
+                    user:{},
+                    posts:ref([]),
+                    replies:ref([]),
                     board:[
                         {
                             name:"帖子标题",
@@ -232,6 +325,10 @@
                         },
                     ]
                 }
+            },
+            mounted(){
+                this.getUserinfo(),
+                this.getPostList()
             },
         }
     </script>
