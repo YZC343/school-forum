@@ -74,6 +74,10 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 <div style="display: flex;justify-content: center;">
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large @click="click_like">{{post.like}}点赞</ElButton>
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle>收藏</ElButton>
+                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle 
+                    v-if="Boolean(user.is_super_admin) === true"
+                    @click="deletepost"
+                    >删除</ElButton>
                 </div>
             </div>
         </ElContainer>
@@ -100,6 +104,11 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     
                 >
                     <ElContainer style="margin-left: 10px;">{{ item.created_time }}</ElContainer>
+                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle 
+                    v-if="Boolean(user.is_super_admin) === true"
+                    @click = "deletereply(item)"
+                    >
+                    删除</ElButton>
                 </div>
             </ElAside>
         </ElContainer>
@@ -134,6 +143,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
     import router from '@/router';
     import axios from 'axios';
     import { format } from 'date-fns';
+import { onMounted, ref } from 'vue';
 
     export default{
 
@@ -183,9 +193,47 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 ).then(
                     response => {
                         console.log(response);
+                        window.location.reload()
                     }
                 )
                 console.log('like')
+            },
+            getUserinfo(){
+                    axios.post('/api/auth/info',
+                    {withCredentials: true,}
+                )
+                    .then(response =>{
+                    this.user=response.data
+                    console.log(response.data)
+                    console.log(this.user)
+                    })
+                    .catch(error => console.error(error));
+                    console.log("getUserinfo")
+                },
+            deletereply(item){
+                axios.post('/api/replies/delete',
+                {uuid:item.post_uuid,sequence_no:item.sequence_no},
+                {withCredentials: true,}
+                )
+                .then(response =>{
+                    console.log(response.data)
+                    console.log("delete reply")
+                    window.location.reload()
+                })
+                
+            },
+            deletepost(){
+                axios.post('/api/posts/delete',{uuid:this.$route.query.uuid})
+                    .then(response => {
+                        console.log(response);
+                        this.post=response.data
+                        console.log("delete post")
+                        router.push({
+                            path:"/Board",
+                            query:{name:this.$route.query.board},
+                        })
+                })
+                .catch(error => console.error(error));
             }
         },
 
@@ -194,6 +242,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                 like:"",
                 reply:"",
                 post:{},
+                user:{},
                 keyword:"",
                 /*
                     author:"用户名",
@@ -201,7 +250,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     content:"帖子内容",
                     time:"2025-12-5"
                 */
-                replies:[],
+                replies:ref([]),
                 /* 
                 {
                         author:"回复用户名",
@@ -227,6 +276,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
             }
         },
         mounted(){
+            this.getUserinfo()
             this.getPost()
             this.getReplies()
         },

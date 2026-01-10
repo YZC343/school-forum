@@ -131,7 +131,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
             clickPost(item){
                 router.push({
                     path:"/Post",
-                    query:{uuid:item.uuid},
+                    query:{uuid:item.uuid,board:item.board_name},
                 })
                 console.log(item.name)
             },
