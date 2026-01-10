@@ -72,7 +72,7 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
             
                 <ElContainer style="margin-left: 10px;">{{post.created_time}}</ElContainer>
                 <div style="display: flex;justify-content: center;">
-                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large>点赞</ElButton>
+                    <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle size:large @click="click_like">{{post.like}}点赞</ElButton>
                     <ElButton style="height: 60%;width: 40px;height: 40px;" type="primary" circle>收藏</ElButton>
                 </div>
             </div>
@@ -175,11 +175,23 @@ import { ElAside, ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'elemen
                     path:"/Board",
                     query:{keyword:this.keyword}
                 })
+            },
+            click_like(){
+                axios.post('/api/posts/like',
+                {uuid:this.$route.query.uuid},
+                {withCredentials: true,}
+                ).then(
+                    response => {
+                        console.log(response);
+                    }
+                )
+                console.log('like')
             }
         },
 
         data() {
             return{
+                like:"",
                 reply:"",
                 post:{},
                 keyword:"",
