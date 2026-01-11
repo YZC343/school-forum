@@ -92,7 +92,7 @@
                     </ElContainer>
 
                     <ElContainer style="display: flex;justify-content:start;margin-left: 15px;align-items: center;height: 25%;font-size: 1.25em;">
-                        <p style="">身份:</p> <p v-if="user.is_super_admin === true">管理员</p> <p v-else>普通用户</p>
+                        <p style="">身份:</p> <p v-if="user.is_super_admin === True">管理员</p> <p v-else>普通用户</p>
                     </ElContainer>
 
                     <ElContainer style="display: flex;justify-content:start;margin-left: 15px;align-items: center;height: 25%;">

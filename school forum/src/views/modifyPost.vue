@@ -95,7 +95,7 @@
                 modify_post(){
                     if(this.title!=''&&this.content!=''){
                         axios.post('/api/posts/edit',
-                        {uuid:this.$route.query.uuid,title:this.post.title,content:this.post.content},
+                        {uuid:this.$route.query.uuid,title:this.post.title,content:this.post.content,board_name:this.post.board_name},
                         {withCredentials: true,}
                     )
                         .then(response =>console.log(response.data))
