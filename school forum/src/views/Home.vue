@@ -59,6 +59,35 @@ import { ElButton, ElContainer, ElHeader, ElMain, ElMenu } from 'element-plus';
         </ElContainer>
 
     </ElContainer>
+
+    <div style="height: 70px;background-color: white;"></div>
+
+    <div style="
+    position: fixed;
+    position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 5%;
+        background-color: #6495ED;
+        /*color: #fff;*/
+        text-align: center;
+        padding: 10px 0;
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        margin-left: 25%;
+        margin-right: 25%;
+        border-radius: 4px;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    "
+
+        v-if="Boolean(user.is_super_admin) === true"
+        @click="onClick_add_board"
+    >
+    <!-- 底栏内容 -->
+    <p >新建板块</p>
+    </div>
     
 </template>
 
@@ -70,6 +99,7 @@ import { ref } from 'vue';
     export default{
         data() {
             return{
+                user:{},
                 board:ref([]),
                 keyword:""
                 
@@ -130,10 +160,28 @@ import { ref } from 'vue';
                     path:"/Board",
                     query:{keyword:this.keyword}
                 })
-            }
+            },
+            onClick_add_board(){
+                router.push({
+                    path:"/Addboard",
+                })
+            },
+            getUserinfo(){
+                    axios.post('/api/auth/info',
+                    {withCredentials: true,}
+                )
+                    .then(response =>{
+                    this.user=response.data
+                    console.log(response.data)
+                    console.log(this.user)
+                    })
+                    .catch(error => console.error(error));
+                    console.log("getUserinfo")
+                },
         },
         mounted(){
             this.getBoardList()
+            this.getUserinfo()
         }
     }
 </script>

@@ -10,6 +10,7 @@ import User from '@/views/User.vue'
 import Message from '@/views/Message.vue'
 import modifyPost from '@/views/modifyPost.vue'
 import modifyReply from '@/views/modifyReply.vue'
+import addBoard from '@/views/addBoard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,10 @@ const router = createRouter({
     {
       path:'/Board',
       component:Board
+    },
+    {
+      path:'/AddBoard',
+      component:addBoard
     },
     {
       path:"/PublishPost",
