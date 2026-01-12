@@ -1,4 +1,4 @@
-# SchoolForum-backend
+# SchoolForum-frontend
 
 ## 部署与运行
 
